@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    container_name: conference_security
+    ports:
+      - 5432:5432
+    volumes:
+      - "./.pgdata/db:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_PASSWORD: "${PG_PWD}"
+      POSTGRES_DB: conference_security
+
+  server:
+   image: tomcat-conf
+   depends_on:
+     - db
+   ports:
+     - 8080:8080
+   environment:
+     EMAIL_PWD: "${EMAIL_PWD}"
+
